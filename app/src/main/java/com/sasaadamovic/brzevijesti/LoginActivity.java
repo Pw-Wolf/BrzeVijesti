@@ -38,12 +38,8 @@ public class LoginActivity extends AppCompatActivity {
         textViewRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Ovdje pokrenite aktivnost za registraciju
-                // Toast.makeText(LoginActivity.this, "Otvaram stranicu za registraciju...", Toast.LENGTH_SHORT).show(); // Možete obrisati ili ostaviti ovaj Toast
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
-                // Ovdje možete dodati i finish(); ako želite zatvoriti LoginActivity kada se otvori RegisterActivity,
-                // ali obično se ostavlja otvorenom kako bi se korisnik mogao vratiti.
             }
         });
     }
@@ -64,19 +60,13 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        // --- OVDJE IDE VAŠA LOGIKA ZA PROVJERU KORISNIČKOG IMENA I LOZINKE ---
-        // Ovo je samo primjer. U stvarnoj aplikaciji biste provjeravali
-        // korisničke podatke s bazom podataka, serverom, SharedPreferences, itd.
-
         if (email.equals("test@example.com") && password.equals("password123")) {
             Toast.makeText(this, "Prijava uspješna!", Toast.LENGTH_SHORT).show();
-            // Nakon uspješne prijave, možete preusmjeriti korisnika na glavnu aktivnost
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class); // Ili neka druga aktivnost
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
-            finish(); // Zatvara LoginActivity kako se korisnik ne bi mogao vratiti pritiskom na "back"
+            finish();
         } else {
             Toast.makeText(this, "Neispravan email ili lozinka.", Toast.LENGTH_LONG).show();
         }
-        // --- KRAJ LOGIKE ZA PROVJERU ---
     }
 }

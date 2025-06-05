@@ -43,10 +43,9 @@ public class RegisterActivity extends AppCompatActivity {
         textViewLoginLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Vraća korisnika na LoginActivity
                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                 startActivity(intent);
-                finish(); // Zatvara RegisterActivity
+                finish();
             }
         });
     }
@@ -57,7 +56,6 @@ public class RegisterActivity extends AppCompatActivity {
         String password = editTextPassword.getText().toString().trim();
         String confirmPassword = editTextConfirmPassword.getText().toString().trim();
 
-        // Validacija unosa
         if (TextUtils.isEmpty(username)) {
             editTextUsername.setError("Korisničko ime je obavezno");
             editTextUsername.requestFocus();
@@ -97,25 +95,17 @@ public class RegisterActivity extends AppCompatActivity {
         if (!password.equals(confirmPassword)) {
             editTextConfirmPassword.setError("Lozinke se ne podudaraju");
             editTextConfirmPassword.requestFocus();
-            // Očisti polja za lozinku radi sigurnosti
             editTextPassword.setText("");
             editTextConfirmPassword.setText("");
             return;
         }
 
-        // --- OVDJE IDE VAŠA LOGIKA ZA SPREMANJE NOVOG KORISNIKA ---
-        // Ovo je mjesto gdje biste spremili korisničke podatke u bazu podataka,
-        // poslali ih na server, itd.
-        // Za ovaj primjer, samo ćemo prikazati Toast poruku.
 
         Toast.makeText(this, "Registracija uspješna za: " + username, Toast.LENGTH_LONG).show();
 
-        // Nakon uspješne registracije, možete preusmjeriti korisnika na LoginActivity
-        // ili direktno na MainActivity ako želite automatsku prijavu.
         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
         startActivity(intent);
-        finish(); // Zatvara RegisterActivity
+        finish();
 
-        // --- KRAJ LOGIKE ZA SPREMANJE ---
     }
 }
