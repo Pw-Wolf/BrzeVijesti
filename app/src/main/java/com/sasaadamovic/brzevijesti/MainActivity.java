@@ -1,24 +1,19 @@
-package com.sasaadamovic.brzevijesti;
+package com.sasaadamovic.brzevijesti; // Prilagodite vašem imenu paketa
 
-import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+        // Postavlja layout definiran u activity_main.xml
         setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
+        // Ovdje možete dodati dodatnu logiku ako je potrebno,
+        // npr. dohvaćanje TextView-a i mijenjanje teksta programski:
+        // TextView textView = findViewById(R.id.textViewHello);
+        // textView.setText("Novi tekst!");
     }
 }
