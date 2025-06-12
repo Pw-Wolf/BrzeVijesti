@@ -1,5 +1,6 @@
 package com.sasaadamovic.brzevijesti;
 
+import android.util.Log; // Dodajte ovaj import za Log klasu
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -13,6 +14,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class NewsApiService {
+
+    private static final String TAG = "NewsApiService"; // Dodajte TAG
 
     private final OkHttpClient client = new OkHttpClient();
     private final Gson gson = new Gson();
@@ -74,28 +77,35 @@ public class NewsApiService {
         String url = String.format("https://finnhub.io/api/v1/company-news?symbol=%s&from=%s&to=%s&token=%s",
                 symbol, fromDate, toDate, FINNHUB_API_TOKEN);
 
+        Log.d(TAG, "Fetching company news from URL: " + url); // Logirajte URL
+
         Request request = new Request.Builder()
                 .url(url)
                 .build();
 
         try (Response response = client.newCall(request).execute()) {
             if (!response.isSuccessful()) {
+                Log.e(TAG, "Unexpected code " + response.code() + " for URL: " + url);
                 throw new IOException("Unexpected code " + response);
             }
 
             String responseBody = response.body().string();
+            Log.d(TAG, "Company news API Response: " + responseBody);
             Type listType = new TypeToken<List<NewsArticle>>() {}.getType();
             return gson.fromJson(responseBody, listType);
         } catch (Exception e) {
+            Log.e(TAG, "Error fetching company news: " + e.getMessage(), e);
             e.printStackTrace();
             return Collections.emptyList();
         }
     }
 
-    // Nova metoda za dohvaćanje općih vijesti (Market News)
-    public List<GeneralNewsArticle> getMarketNews(String category) throws IOException {
-        String url = String.format("https://finnhub.io/api/v1/news?category=%s&token=%s",
-                category, FINNHUB_API_TOKEN);
+    // Ažurirana metoda za dohvaćanje općih vijesti (Market News) s datumima
+    public List<GeneralNewsArticle> getMarketNews(String category, String fromDate, String toDate) throws IOException {
+        String url = String.format("https://finnhub.io/api/v1/news?category=%s&minSentiment=0.7&from=%s&to=%s&token=%s",
+                category, fromDate, toDate, FINNHUB_API_TOKEN);
+
+        Log.d(TAG, "Fetching market news from URL: " + url);
 
         Request request = new Request.Builder()
                 .url(url)
@@ -103,33 +113,41 @@ public class NewsApiService {
 
         try (Response response = client.newCall(request).execute()) {
             if (!response.isSuccessful()) {
+                Log.e(TAG, "Unexpected code " + response.code() + " for URL: " + url);
                 throw new IOException("Unexpected code " + response);
             }
             String responseBody = response.body().string();
+            Log.d(TAG, "Market news API Response: " + responseBody);
             Type listType = new TypeToken<List<GeneralNewsArticle>>() {}.getType();
             return gson.fromJson(responseBody, listType);
         } catch (Exception e) {
+            Log.e(TAG, "Error fetching market news: " + e.getMessage(), e);
             e.printStackTrace();
             return Collections.emptyList();
         }
     }
 
-    // Nova metoda za dohvaćanje cijena dionica
+    // Metoda za dohvaćanje cijena dionica
     public StockQuote getStockQuote(String symbol) throws IOException {
         String url = String.format("https://finnhub.io/api/v1/quote?symbol=%s&token=%s",
                 symbol, FINNHUB_API_TOKEN);
 
+        Log.d(TAG, "Fetching stock quote from URL: " + url);
+
         Request request = new Request.Builder()
                 .url(url)
                 .build();
 
         try (Response response = client.newCall(request).execute()) {
             if (!response.isSuccessful()) {
+                Log.e(TAG, "Unexpected code " + response.code() + " for URL: " + url);
                 throw new IOException("Unexpected code " + response);
             }
             String responseBody = response.body().string();
+            Log.d(TAG, "Stock quote API Response: " + responseBody);
             return gson.fromJson(responseBody, StockQuote.class);
         } catch (Exception e) {
+            Log.e(TAG, "Error fetching stock quote: " + e.getMessage(), e);
             e.printStackTrace();
             return null;
         }

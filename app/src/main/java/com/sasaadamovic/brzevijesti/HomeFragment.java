@@ -13,8 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -23,9 +26,11 @@ public class HomeFragment extends Fragment {
     private static final String TAG = "HomeFragment";
     private RecyclerView newsRecyclerView;
     private NewsAdapter newsAdapter;
-    private List<NewsArticle> newsArticleList; // Koristite NewsArticle za prikaz
+    private List<NewsArticle> newsArticleList;
     private NewsApiService newsApiService;
     private ExecutorService executorService;
+
+    private static final int MAX_NEWS_TO_DISPLAY = 10; // Definirajte maksimalan broj vijesti za prikaz
 
     public HomeFragment() {
         // Required empty public constructor
@@ -50,28 +55,44 @@ public class HomeFragment extends Fragment {
     }
 
     private void fetchMarketNews() {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+
+        String toDate = dateFormat.format(calendar.getTime());
+
+        calendar.add(Calendar.DAY_OF_YEAR, -1); // Npr. -1 dan
+        String fromDate = dateFormat.format(calendar.getTime());
+
         executorService.execute(() -> {
             try {
-                List<NewsApiService.GeneralNewsArticle> generalNews = newsApiService.getMarketNews("general"); // Dohvati opće vijesti
+                List<NewsApiService.GeneralNewsArticle> generalNews = newsApiService.getMarketNews("general", fromDate, toDate);
                 if (generalNews != null && !generalNews.isEmpty()) {
                     List<NewsArticle> convertedNews = new ArrayList<>();
                     for (NewsApiService.GeneralNewsArticle item : generalNews) {
-                        // Pretvorite GeneralNewsArticle u NewsArticle jer NewsAdapter koristi NewsArticle
                         convertedNews.add(new NewsArticle(
                                 item.getCategory(),
                                 item.getDatetime(),
                                 item.getHeadline(),
                                 item.getId(),
                                 item.getImage(),
-                                null, // related field is not in GeneralNewsArticle
+                                null,
                                 item.getSource(),
                                 item.getSummary(),
                                 item.getUrl()
                         ));
                     }
+
+                    // Ograničite broj vijesti na MAX_NEWS_TO_DISPLAY
+                    final List<NewsArticle> limitedNews;
+                    if (convertedNews.size() > MAX_NEWS_TO_DISPLAY) {
+                        limitedNews = convertedNews.subList(0, MAX_NEWS_TO_DISPLAY);
+                    } else {
+                        limitedNews = convertedNews;
+                    }
+
                     getActivity().runOnUiThread(() -> {
                         newsArticleList.clear();
-                        newsArticleList.addAll(convertedNews);
+                        newsArticleList.addAll(limitedNews); // Dodajte ograničenu listu
                         newsAdapter.notifyDataSetChanged();
                     });
                 } else {
