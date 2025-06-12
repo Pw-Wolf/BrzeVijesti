@@ -20,4 +20,7 @@ public interface FavoriteStockDao {
 
     @Query("SELECT EXISTS(SELECT 1 FROM favorite_stocks WHERE symbol = :symbol LIMIT 1)")
     boolean isFavorite(String symbol);
+
+    @Query("DELETE FROM favorite_stocks WHERE symbol = :symbol")
+    void deleteBySymbol(String symbol); // Dodajte ovu metodu
 }
