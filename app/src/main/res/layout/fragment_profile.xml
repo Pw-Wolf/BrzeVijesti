@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".ProfileFragment"> <!-- Zamijenite s putanjom do vašeg ProfileFragmenta -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:paddingBottom="24dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingTop="150dp">
+
+        <!-- Placeholder za sliku profila -->
+        <ImageView
+            android:id="@+id/imageViewProfilePic"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginBottom="24dp"
+            android:background="@color/placeholder_bg" /> <!-- Kreirajte boju placeholder_bg -->
+        <!-- Alternativno, možete koristiti android:src="@drawable/ic_profile_placeholder"
+             ako imate drawable resurs za placeholder -->
+
+        <!-- Promjena korisničkog imena -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Korisničko ime"
+            style="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:layout_marginBottom="4dp"/>
+
+        <EditText
+            android:id="@+id/editTextProfileUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Unesite novo korisničko ime"
+            android:inputType="textPersonName"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Promjena emaila -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Email adresa"
+            style="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:layout_marginBottom="4dp"/>
+
+        <EditText
+            android:id="@+id/editTextProfileEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Unesite novu email adresu"
+            android:inputType="textEmailAddress"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Promjena lozinke -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lozinka"
+            style="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:layout_marginBottom="4dp"/>
+
+        <EditText
+            android:id="@+id/editTextProfileCurrentPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Trenutna lozinka"
+            android:inputType="textPassword"
+            android:layout_marginBottom="8dp"/>
+
+        <EditText
+            android:id="@+id/editTextProfileNewPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nova lozinka"
+            android:inputType="textPassword"
+            android:layout_marginBottom="8dp"/>
+
+        <EditText
+            android:id="@+id/editTextProfileConfirmNewPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Potvrdite novu lozinku"
+            android:inputType="textPassword"
+            android:layout_marginBottom="24dp"/>
+
+        <Button
+            android:id="@+id/buttonSaveChanges"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Spremi promjene"/>
+
+    </LinearLayout>
+</ScrollView>

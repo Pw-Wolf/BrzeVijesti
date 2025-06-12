@@ -12,5 +12,5 @@
     <color name="primary">#d0a7a6</color>
     <color name="secondary">#861b17</color>
     <color name="accent">#c05e5a</color>
-
+    <color name="placeholder_bg">#c05e5a</color>
 </resources>
