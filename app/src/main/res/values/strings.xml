@@ -1,14 +1,26 @@
 <resources>
     <!--  ENGLISH  -->
-    <string name="app_name">BrzeVijesti</string>
+    <string name="app_name">FastNews</string>
     <string name="text_welcome">Welcome!</string>"
     <string name="hello_world">Hello World!</string>
     <string name="button_login">Login</string>
     <string name="button_register">Register</string>
 
-    <string name="text_home">Početna</string>
-    <string name="text_search">Dionice</string>
-    <string name="text_favorites">Favoriti</string>
-    <string name="text_profile">Profil</string>
+    <string name="text_home">Home</string>
+    <string name="text_search">Stocks</string>
+    <string name="text_favorites">Favorite</string>
+    <string name="text_profile">Profile</string>
+
+    <string name="text_user">Username</string>
+    <string name="text_new_user">Enter new username</string>
+    <string name="text_email">Email</string>
+    <string name="text_new_email">Enter new Email</string>
+    <string name="text_password">Password</string>
+    <string name="text_current_password">Current password</string>
+    <string name="text_password_again">Password repeat</string>
+    <string name="text_no_accout">You don`t have an account? Register now</string>
+    <string name="text_have_account">You already have an account? Login</string>
+    <string name="text_save_changes">Save changes</string>
+
 
 </resources>

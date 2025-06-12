@@ -1,0 +1,28 @@
+<resources>
+    <!--  CROATIA  -->
+    <string name="app_name">BrzeVijesti</string>
+    <string name="text_welcome">Dobrodosli!</string>"
+    <string name="hello_world">Pozdrav svijete</string>
+    <string name="button_login">Ulogiraj se</string>
+    <string name="button_register">Registriraj se</string>
+
+    <string name="text_home">Početna</string>
+    <string name="text_search">Dionice</string>
+    <string name="text_favorites">Favoriti</string>
+    <string name="text_profile">Profil</string>
+
+    <string name="text_user">Korisničko ime</string>
+    <string name="text_new_user">Unesite novo korisničko ime</string>
+    <string name="text_email">Email</string>
+    <string name="text_new_email">Unesite novu email adresu</string>
+
+    <string name="text_password">Lozinka</string>
+    <string name="text_current_password">Trenturna lozinka</string>
+    <string name="text_password_again">Potvrdi Lozinku</string>
+
+
+    <string name="text_no_accout">Nemate račun? Registrujte se</string>
+    <string name="text_have_account">Već imate račun? Prijavite se</string>
+    <string name="text_save_changes">Spremi promjene</string>
+
+</resources>

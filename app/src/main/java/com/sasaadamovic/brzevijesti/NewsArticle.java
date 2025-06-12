@@ -4,20 +4,18 @@ import com.google.gson.annotations.SerializedName;
 
 public class NewsArticle {
     private String category;
-    private long datetime; // Unix timestamp
+    private long datetime;
     private String headline;
     private long id;
-    private String image; // URL slike, može biti null
+    private String image;
     private String related;
     private String source;
     private String summary;
     private String url;
 
-    // Prazan konstruktor za Gson (opcionalno, Gson može i bez njega)
     public NewsArticle() {
     }
 
-    // Konstruktor sa svim poljima (opcionalno, za lakše stvaranje objekata)
     public NewsArticle(String category, long datetime, String headline, long id, String image, String related, String source, String summary, String url) {
         this.category = category;
         this.datetime = datetime;
@@ -30,7 +28,6 @@ public class NewsArticle {
         this.url = url;
     }
 
-    // Getteri za sva polja
     public String getCategory() {
         return category;
     }
@@ -67,7 +64,6 @@ public class NewsArticle {
         return url;
     }
 
-    // Setteri za sva polja (opcionalno, ako ih trebaš mijenjati nakon kreiranja)
     public void setCategory(String category) {
         this.category = category;
     }

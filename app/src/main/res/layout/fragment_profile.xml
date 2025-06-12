@@ -23,15 +23,13 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_marginBottom="24dp"
-            android:background="@color/placeholder_bg" /> <!-- Kreirajte boju placeholder_bg -->
-        <!-- Alternativno, možete koristiti android:src="@drawable/ic_profile_placeholder"
-             ako imate drawable resurs za placeholder -->
+            android:background="@color/placeholder_bg" />
 
         <!-- Promjena korisničkog imena -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Korisničko ime"
+            android:text="@string/text_user"
             style="@style/TextAppearance.MaterialComponents.Subtitle1"
             android:layout_marginBottom="4dp"/>
 
@@ -39,7 +37,7 @@
             android:id="@+id/editTextProfileUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Unesite novo korisničko ime"
+            android:hint="@string/text_new_user"
             android:inputType="textPersonName"
             android:layout_marginBottom="16dp"/>
 
@@ -47,7 +45,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Email adresa"
+            android:text="@string/text_email"
             style="@style/TextAppearance.MaterialComponents.Subtitle1"
             android:layout_marginBottom="4dp"/>
 
@@ -55,7 +53,7 @@
             android:id="@+id/editTextProfileEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Unesite novu email adresu"
+            android:hint="@string/text_new_email"
             android:inputType="textEmailAddress"
             android:layout_marginBottom="16dp"/>
 
@@ -63,7 +61,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Lozinka"
+            android:text="@string/text_password"
             style="@style/TextAppearance.MaterialComponents.Subtitle1"
             android:layout_marginBottom="4dp"/>
 
@@ -71,7 +69,7 @@
             android:id="@+id/editTextProfileCurrentPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Trenutna lozinka"
+            android:hint="@string/text_current_password"
             android:inputType="textPassword"
             android:layout_marginBottom="8dp"/>
 
@@ -79,7 +77,7 @@
             android:id="@+id/editTextProfileNewPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nova lozinka"
+            android:hint="@string/text_password"
             android:inputType="textPassword"
             android:layout_marginBottom="8dp"/>
 
@@ -87,7 +85,7 @@
             android:id="@+id/editTextProfileConfirmNewPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Potvrdite novu lozinku"
+            android:hint="@string/text_password_again"
             android:inputType="textPassword"
             android:layout_marginBottom="24dp"/>
 
@@ -95,7 +93,7 @@
             android:id="@+id/buttonSaveChanges"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Spremi promjene"/>
+            android:text="@string/text_save_changes"/>
 
     </LinearLayout>
 </ScrollView>

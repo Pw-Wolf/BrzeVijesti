@@ -8,8 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView; // If you are using a TextView
-
-// You might need to import your R file if it's not automatically resolved
 // import com.sasaadamovic.brzevijesti.R;
 
 public class StocksFragment extends Fragment {
@@ -21,16 +19,7 @@ public class StocksFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        // Make sure you have a layout file named 'fragment_Stocks.xml' in your res/layout folder
         View view = inflater.inflate(R.layout.fragment_stocks, container, false);
-
-        // --- Example: Find a TextView and set its text ---
-        // TextView StocksTextView = view.findViewById(R.id.textViewStocksFragment); // Assume you have this ID in fragment_Stocks.xml
-        // if (StocksTextView != null) {
-        //     StocksTextView.setText("This is the Stocks Fragment");
-        // }
-        // --- End Example ---
 
         return view;
     }
@@ -38,7 +27,5 @@ public class StocksFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        // You can do more view setup here after the view has been created
-        // For example, setting up listeners, observing LiveData, etc.
     }
 }

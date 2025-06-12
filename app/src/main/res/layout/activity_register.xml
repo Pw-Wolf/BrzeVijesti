@@ -12,7 +12,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Registracija"
+        android:text="@string/button_register"
         android:textSize="28sp"
         android:textStyle="bold"
         android:layout_marginBottom="24dp"/>
@@ -21,7 +21,7 @@
         android:id="@+id/editTextUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Korisničko ime"
+        android:hint="@string/text_user"
         android:inputType="textPersonName"
         android:layout_marginBottom="12dp"/>
 
@@ -29,7 +29,7 @@
         android:id="@+id/editTextEmailRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Email"
+        android:hint="@string/text_email"
         android:inputType="textEmailAddress"
         android:layout_marginBottom="12dp"/>
 
@@ -37,7 +37,7 @@
         android:id="@+id/editTextPasswordRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Lozinka"
+        android:hint="@string/text_password"
         android:inputType="textPassword"
         android:layout_marginBottom="12dp"/>
 
@@ -45,7 +45,7 @@
         android:id="@+id/editTextConfirmPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Potvrdi lozinku"
+        android:hint="@string/text_password_again"
         android:inputType="textPassword"
         android:layout_marginBottom="24dp"/>
 
@@ -53,13 +53,13 @@
         android:id="@+id/buttonRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Registriraj se"/>
+        android:text="@string/button_register"/>
 
     <TextView
         android:id="@+id/textViewLoginLink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Već imate račun? Prijavite se"
+        android:text="@string/text_have_account"
         android:layout_marginTop="16dp"
         android:textColor="?android:attr/textColorLink"
         android:clickable="true"

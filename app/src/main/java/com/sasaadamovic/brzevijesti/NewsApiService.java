@@ -16,8 +16,6 @@ public class NewsApiService {
     private final OkHttpClient client = new OkHttpClient();
     private final Gson gson = new Gson();
 
-    // Oprez: API token ne bi trebao biti hardkodiran u produkcijskoj aplikaciji!
-    // Bolje ga je dohvatiti sa vlastitog backenda ili ga spremiti na sigurniji način.
     private final String FINNHUB_API_TOKEN = "cqofc19r01qk95831gi0cqofc19r01qk95831gig";
 
     public List<NewsArticle> getCompanyNews(String symbol, String fromDate, String toDate) throws IOException {
@@ -38,7 +36,7 @@ public class NewsApiService {
             return gson.fromJson(responseBody, listType);
         } catch (Exception e) {
             e.printStackTrace();
-            return Collections.emptyList(); // Vrati praznu listu u slučaju greške
+            return Collections.emptyList();
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.sasaadamovic.brzevijesti; // Vaš naziv paketa
+package com.sasaadamovic.brzevijesti;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.nav_view);
         bottomNavigationView.setOnItemSelectedListener(navListener);
 
-        // Učitavanje početnog fragmenta (npr. HomeFragment) pri prvom pokretanju
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, new HomeFragment())
@@ -48,11 +47,11 @@ public class MainActivity extends AppCompatActivity {
                         selectedFragment = new HomeFragment();
                     }
                     else if (itemId == R.id.navigation_search) {
-                        selectedFragment = new StocksFragment(); // Pretpostavljam da imate ovu klasu
+                        selectedFragment = new StocksFragment();
                     } else if (itemId == R.id.navigation_favorites) {
-                        selectedFragment = new FavoritesFragment(); // Pretpostavljam da imate ovu klasu
+                        selectedFragment = new FavoritesFragment();
                     } else if (itemId == R.id.navigation_profile) {
-                        selectedFragment = new ProfileFragment(); // Pretpostavljam da imate ovu klasu
+                        selectedFragment = new ProfileFragment();
                     }
 
                     if (selectedFragment != null) {
