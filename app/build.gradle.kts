@@ -74,4 +74,13 @@ dependencies {
     implementation("androidx.cardview:cardview:1.0.0")
 
 
+    implementation("androidx.room:room-runtime:2.6.1")
+    annotationProcessor("androidx.room:room-compiler:2.6.1")
+    // For Kotlin use kapt instead of annotationProcessor
+    // kapt("androidx.room:room-compiler:2.6.1")
+    implementation("androidx.room:room-rxjava2:2.6.1") // Optional, for RxJava support
+    implementation("androidx.room:room-guava:2.6.1") // Optional, for Guava support
+    implementation("androidx.room:room-paging:2.6.1")
+
+
 }
