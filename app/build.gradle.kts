@@ -37,11 +37,9 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.ext.junit)
-    androidTestImplementation(libs.espresso.core)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
 
@@ -49,5 +47,14 @@ dependencies {
     implementation(libs.navigation.ui)
     implementation(libs.material)
 
+    testImplementation(libs.junit)
+
+    androidTestImplementation(libs.ext.junit)
+    androidTestImplementation(libs.espresso.core)
+
     implementation("com.google.android.material:material:1.5.0")
+
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+
+    implementation("com.google.code.gson:gson:2.10.1")
 }

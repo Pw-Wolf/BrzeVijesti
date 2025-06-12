@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.util.Log;
 import android.widget.TextView; // If you are using a TextView
 
 // You might need to import your R file if it's not automatically resolved
@@ -17,6 +18,7 @@ public class HomeFragment extends Fragment {
     public HomeFragment() {
         // Required empty public constructor
     }
+    private static final String TAG = "MainActivity";
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -24,6 +26,7 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         // Make sure you have a layout file named 'fragment_home.xml' in your res/layout folder
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+//        Log.i(TAG, "Vaša poruka");
 
         // --- Example: Find a TextView and set its text ---
         // TextView homeTextView = view.findViewById(R.id.textViewHomeFragment); // Assume you have this ID in fragment_home.xml
