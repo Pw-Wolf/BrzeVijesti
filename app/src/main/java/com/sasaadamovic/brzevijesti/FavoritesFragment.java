@@ -55,11 +55,16 @@ public class FavoritesFragment extends Fragment implements FavoriteStocksAdapter
     private void loadFavoriteStocks() {
         executorService.execute(() -> {
             List<FavoriteStock> stocks = favoriteStockDao.getAllFavoriteStocks();
-            getActivity().runOnUiThread(() -> {
-                favoriteStockList.clear();
-                favoriteStockList.addAll(stocks);
-                adapter.notifyDataSetChanged();
-            });
+            // Provjerite je li fragment još uvijek pripojen aktivnosti prije ažuriranja UI-ja
+            if (isAdded() && getActivity() != null) {
+                getActivity().runOnUiThread(() -> {
+                    if (isAdded()) { // Ponovna provjera unutar runOnUiThread
+                        favoriteStockList.clear();
+                        favoriteStockList.addAll(stocks);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+            }
         });
     }
 
@@ -67,10 +72,14 @@ public class FavoritesFragment extends Fragment implements FavoriteStocksAdapter
     public void onRemoveClick(FavoriteStock stock) {
         executorService.execute(() -> {
             favoriteStockDao.delete(stock);
-            getActivity().runOnUiThread(() -> {
-                Toast.makeText(getContext(), stock.getSymbol() + " removed from favorites", Toast.LENGTH_SHORT).show();
-                loadFavoriteStocks(); // Osvježi listu nakon brisanja
-            });
+            if (isAdded() && getActivity() != null) {
+                getActivity().runOnUiThread(() -> {
+                    if (isAdded()) {
+                        Toast.makeText(getContext(), stock.getSymbol() + " removed from favorites", Toast.LENGTH_SHORT).show();
+                        loadFavoriteStocks(); // Osvježi listu nakon brisanja
+                    }
+                });
+            }
         });
     }
 
@@ -78,7 +87,7 @@ public class FavoritesFragment extends Fragment implements FavoriteStocksAdapter
     public void onDestroy() {
         super.onDestroy();
         if (executorService != null) {
-            executorService.shutdown();
+            executorService.shutdownNow(); // Koristite shutdownNow() za prekidanje zadataka odmah
         }
     }
 }

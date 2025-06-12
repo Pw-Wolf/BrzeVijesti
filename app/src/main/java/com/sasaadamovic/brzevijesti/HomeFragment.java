@@ -60,7 +60,7 @@ public class HomeFragment extends Fragment {
 
         String toDate = dateFormat.format(calendar.getTime());
 
-        calendar.add(Calendar.DAY_OF_YEAR, -1); // Npr. -1 dan
+        calendar.add(Calendar.DAY_OF_YEAR, -1);
         String fromDate = dateFormat.format(calendar.getTime());
 
         executorService.execute(() -> {
@@ -82,7 +82,6 @@ public class HomeFragment extends Fragment {
                         ));
                     }
 
-                    // Ograničite broj vijesti na MAX_NEWS_TO_DISPLAY
                     final List<NewsArticle> limitedNews;
                     if (convertedNews.size() > MAX_NEWS_TO_DISPLAY) {
                         limitedNews = convertedNews.subList(0, MAX_NEWS_TO_DISPLAY);
@@ -90,11 +89,16 @@ public class HomeFragment extends Fragment {
                         limitedNews = convertedNews;
                     }
 
-                    getActivity().runOnUiThread(() -> {
-                        newsArticleList.clear();
-                        newsArticleList.addAll(limitedNews); // Dodajte ograničenu listu
-                        newsAdapter.notifyDataSetChanged();
-                    });
+                    // DODAJTE OVU PROVJERU OVDJE
+                    if (isAdded() && getActivity() != null) {
+                        getActivity().runOnUiThread(() -> {
+                            if (isAdded()) { // Ponovna provjera unutar runOnUiThread
+                                newsArticleList.clear();
+                                newsArticleList.addAll(limitedNews);
+                                newsAdapter.notifyDataSetChanged();
+                            }
+                        });
+                    }
                 } else {
                     Log.e(TAG, "No general news found or error fetching.");
                 }
@@ -109,7 +113,7 @@ public class HomeFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         if (executorService != null) {
-            executorService.shutdown();
+            executorService.shutdownNow(); // Koristite shutdownNow() za prekidanje zadataka odmah
         }
     }
 }
