@@ -5,7 +5,7 @@ android:layout_height="match_parent"
 android:orientation="vertical"
 android:gravity="center"
 android:padding="24dp"
-tools:context=".LoginActivity"> <!-- Zamijenite .LoginActivity s imenom vaše Java klase -->
+tools:context=".LoginActivity">
 
 <TextView
     android:layout_width="wrap_content"
