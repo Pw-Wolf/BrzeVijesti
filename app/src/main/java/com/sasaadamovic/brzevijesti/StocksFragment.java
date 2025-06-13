@@ -1,18 +1,15 @@
 package com.sasaadamovic.brzevijesti;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button; // Dodajte ovaj import
-import android.widget.TextView; // Dodajte ovaj import
+import android.widget.Button;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -46,7 +43,6 @@ public class StocksFragment extends Fragment implements StockAdapter.OnItemClick
 
         stockSymbols = new ArrayList<>(Arrays.asList(
                 "AAPL", "MSFT", "GOOGL", "AMZN", "NVDA", "TSLA"
-//                , "META", "BRK.B", "JPM", "V", "JNJ", "WMT", "PG", "UNH", "HD", "MA", "XOM", "CVX", "BAC", "PFE"
         ));
 
         stockAdapter = new StockAdapter(stockSymbols, this);
@@ -54,12 +50,7 @@ public class StocksFragment extends Fragment implements StockAdapter.OnItemClick
 
         newsApiService = new NewsApiService();
         executorService = Executors.newSingleThreadExecutor();
-
-//        db = Room.databaseBuilder(getContext(),
-//                AppDatabase.class, "brzevijesti-db").fallbackToDestructiveMigration() // <-- DODAJ OVU LINIJU
-//                .build();
         db = AppDatabase.getInstance(getContext().getApplicationContext());
-
         favoriteStockDao = db.favoriteStockDao();
 
         fetchAllStockQuotes();
@@ -74,19 +65,19 @@ public class StocksFragment extends Fragment implements StockAdapter.OnItemClick
             executorService.execute(() -> {
                 try {
                     NewsApiService.StockQuote quote = newsApiService.getStockQuote(symbol);
-                    // Provjerite je li fragment još uvijek pripojen aktivnosti prije ažuriranja UI-ja
                     if (isAdded() && getActivity() != null) {
                         getActivity().runOnUiThread(() -> {
-                            if (isAdded()) { // Ponovna provjera unutar runOnUiThread
+                            if (isAdded()) {
                                 RecyclerView.ViewHolder viewHolder = stocksRecyclerView.findViewHolderForAdapterPosition(position);
                                 if (viewHolder instanceof StockAdapter.StockViewHolder) {
                                     if (quote != null) {
-                                        ((StockAdapter.StockViewHolder) viewHolder).stockPrice.setText(String.format("Current Price: %.2f", quote.getCurrentPrice()));
+                                        // ISPRAVAK: Korištenje string resursa
+                                        ((StockAdapter.StockViewHolder) viewHolder).stockPrice.setText(getString(R.string.stock_current_price, quote.getCurrentPrice()));
                                     } else {
-                                        ((StockAdapter.StockViewHolder) viewHolder).stockPrice.setText("N/A"); // Prikaži N/A ako nema podataka
+                                        // ISPRAVAK: Korištenje string resursa
+                                        ((StockAdapter.StockViewHolder) viewHolder).stockPrice.setText(getString(R.string.stock_price_na));
                                     }
                                 }
-                                // Provjerite status favorita i ažurirajte gumb
                                 checkFavoriteStatus(symbol, position);
                             }
                         });
@@ -96,7 +87,8 @@ public class StocksFragment extends Fragment implements StockAdapter.OnItemClick
                     if (isAdded() && getActivity() != null) {
                         getActivity().runOnUiThread(() -> {
                             if (isAdded()) {
-                                Toast.makeText(getContext(), "Error fetching quote for " + symbol + ": " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                // ISPRAVAK: Korištenje string resursa
+                                Toast.makeText(getContext(), getString(R.string.error_fetching_quote, symbol, e.getMessage()), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -115,9 +107,11 @@ public class StocksFragment extends Fragment implements StockAdapter.OnItemClick
                         if (viewHolder instanceof StockAdapter.StockViewHolder) {
                             Button favoriteButton = ((StockAdapter.StockViewHolder) viewHolder).favoriteButton;
                             if (isFav) {
-                                favoriteButton.setText("Remove from Favorites");
+                                // ISPRAVAK: Korištenje string resursa
+                                favoriteButton.setText(getString(R.string.remove_from_favorites));
                             } else {
-                                favoriteButton.setText("Add to Favorites");
+                                // ISPRAVAK: Korištenje string resursa
+                                favoriteButton.setText(getString(R.string.add_to_favorites));
                             }
                         }
                     }
@@ -131,6 +125,7 @@ public class StocksFragment extends Fragment implements StockAdapter.OnItemClick
         toggleFavoriteStock(symbol, symbol, position);
     }
 
+    @SuppressLint("SetTextI18n")
     private void toggleFavoriteStock(String symbol, String companyName, int position) {
         executorService.execute(() -> {
             boolean isCurrentlyFavorite = favoriteStockDao.isFavorite(symbol);
@@ -139,10 +134,12 @@ public class StocksFragment extends Fragment implements StockAdapter.OnItemClick
                 if (isAdded() && getActivity() != null) {
                     getActivity().runOnUiThread(() -> {
                         if (isAdded()) {
-                            Toast.makeText(getContext(), symbol + " removed from favorites", Toast.LENGTH_SHORT).show();
+                            // ISPRAVAK: Korištenje string resursa
+                            Toast.makeText(getContext(), getString(R.string.removed_from_favorites, symbol), Toast.LENGTH_SHORT).show();
                             RecyclerView.ViewHolder viewHolder = stocksRecyclerView.findViewHolderForAdapterPosition(position);
                             if (viewHolder instanceof StockAdapter.StockViewHolder) {
-                                ((StockAdapter.StockViewHolder) viewHolder).favoriteButton.setText("Add to Favorites");
+                                // ISPRAVAK: Korištenje string resursa
+                                ((StockAdapter.StockViewHolder) viewHolder).favoriteButton.setText(getString(R.string.add_to_favorites));
                             }
                         }
                     });
@@ -153,10 +150,12 @@ public class StocksFragment extends Fragment implements StockAdapter.OnItemClick
                 if (isAdded() && getActivity() != null) {
                     getActivity().runOnUiThread(() -> {
                         if (isAdded()) {
-                            Toast.makeText(getContext(), symbol + " added to favorites", Toast.LENGTH_SHORT).show();
+                            // ISPRAVAK: Korištenje string resursa
+                            Toast.makeText(getContext(), getString(R.string.added_to_favorites, symbol), Toast.LENGTH_SHORT).show();
                             RecyclerView.ViewHolder viewHolder = stocksRecyclerView.findViewHolderForAdapterPosition(position);
                             if (viewHolder instanceof StockAdapter.StockViewHolder) {
-                                ((StockAdapter.StockViewHolder) viewHolder).favoriteButton.setText("Remove from Favorites");
+                                // ISPRAVAK: Korištenje string resursa
+                                ((StockAdapter.StockViewHolder) viewHolder).favoriteButton.setText(getString(R.string.remove_from_favorites));
                             }
                         }
                     });
@@ -169,7 +168,7 @@ public class StocksFragment extends Fragment implements StockAdapter.OnItemClick
     public void onDestroy() {
         super.onDestroy();
         if (executorService != null) {
-            executorService.shutdownNow(); // Koristite shutdownNow() za prekidanje zadataka odmah
+            executorService.shutdownNow();
         }
     }
 }
