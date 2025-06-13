@@ -50,13 +50,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         if (newsArticle.getImage() != null && !newsArticle.getImage().isEmpty()) {
             Glide.with(holder.itemView.getContext())
                     .load(newsArticle.getImage())
-//                    .placeholder(R.drawable.placeholder_image)
-//                    .error(R.drawable.error_image)
+
                     .into(holder.newsImage);
         }
-//        else {
-//            holder.newsImage.setImageResource(R.drawable.no_image_available);
-//        }
 
         holder.readMoreButton.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(newsArticle.getUrl()));

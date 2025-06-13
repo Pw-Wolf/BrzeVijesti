@@ -10,10 +10,8 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract FavoriteStockDao favoriteStockDao();
 
-    // Kreiramo jednu, statičku instancu baze
     private static volatile AppDatabase INSTANCE;
 
-    // Metoda koja će uvijek vraćati tu istu instancu
     public static AppDatabase getInstance(Context context) {
         if (INSTANCE == null) {
             synchronized (AppDatabase.class) {

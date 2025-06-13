@@ -11,10 +11,9 @@ import java.util.List;
 
 public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHolder> {
 
-    private List<String> stockSymbols; // Lista simbola dionica
+    private List<String> stockSymbols;
     private OnItemClickListener listener;
 
-    // Interface za klik na gumb Favorite
     public interface OnItemClickListener {
         void onFavoriteClick(String symbol, int position);
     }
@@ -36,11 +35,9 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
         String symbol = stockSymbols.get(position);
         holder.stockSymbol.setText(symbol);
 
-        // Ovdje ćete postaviti cijenu dionice. Trenutno je prazno jer će se cijena dohvatiti asinkrono.
-        // Cijena će se postaviti unutar StocksFragmenta nakon što se dohvati.
+
         holder.stockPrice.setText("Loading price...");
 
-        // Postavite slušatelja klika na gumb Favorite
         holder.favoriteButton.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onFavoriteClick(symbol, position);
@@ -53,11 +50,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
         return stockSymbols.size();
     }
 
-    // Metoda za ažuriranje cijene pojedine dionice
     public void updateStockPrice(int position, String price) {
-        // Morate pronaći način da ažurirate prikaz cijene za određenu dionicu
-        // To ćete morati implementirati u StocksFragmentu nakon što dohvatite cijenu.
-        // Ovdje je samo placeholder.
     }
 
     public static class StockViewHolder extends RecyclerView.ViewHolder {

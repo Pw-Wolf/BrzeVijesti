@@ -1,6 +1,6 @@
 package com.sasaadamovic.brzevijesti;
 
-import android.util.Log; // Dodajte ovaj import za Log klasu
+import android.util.Log;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -15,14 +15,13 @@ import java.util.List;
 
 public class NewsApiService {
 
-    private static final String TAG = "NewsApiService"; // Dodajte TAG
+    private static final String TAG = "NewsApiService";
 
     private final OkHttpClient client = new OkHttpClient();
     private final Gson gson = new Gson();
 
-    private final String FINNHUB_API_TOKEN = "cqofc19r01qk95831gi0cqofc19r01qk95831gig"; // Vaš API token
+    private final String FINNHUB_API_TOKEN = "cqofc19r01qk95831gi0cqofc19r01qk95831gig";
 
-    // Klasa za opće vijesti (Finnhub 'news' endpoint)
     public static class GeneralNewsArticle {
         @SerializedName("category")
         private String category;
@@ -100,7 +99,6 @@ public class NewsApiService {
         }
     }
 
-    // Ažurirana metoda za dohvaćanje općih vijesti (Market News) s datumima
     public List<GeneralNewsArticle> getMarketNews(String category, String fromDate, String toDate) throws IOException {
         String url = String.format("https://finnhub.io/api/v1/news?category=%s&minSentiment=0.7&from=%s&to=%s&token=%s",
                 category, fromDate, toDate, FINNHUB_API_TOKEN);
@@ -127,7 +125,6 @@ public class NewsApiService {
         }
     }
 
-    // Metoda za dohvaćanje cijena dionica
     public StockQuote getStockQuote(String symbol) throws IOException {
         String url = String.format("https://finnhub.io/api/v1/quote?symbol=%s&token=%s",
                 symbol, FINNHUB_API_TOKEN);

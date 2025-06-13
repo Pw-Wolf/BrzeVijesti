@@ -14,24 +14,20 @@ public class FavoriteStocksAdapter extends RecyclerView.Adapter<FavoriteStocksAd
     private List<FavoriteStock> favoriteStocks;
     private OnItemClickListener listener;
     private OnItemLongClickListener longClickListener;
-    private OnRemoveClickListener removeClickListener; // Novi listener
+    private OnRemoveClickListener removeClickListener;
 
-    // Interface za klik na cijeli element
     public interface OnItemClickListener {
         void onItemClick(String symbol);
     }
 
-    // Interface za dugi pritisak
     public interface OnItemLongClickListener {
         void onItemLongClick(FavoriteStock stock);
     }
 
-    // NOVI Interface za klik na gumb za brisanje
     public interface OnRemoveClickListener {
         void onRemoveClick(FavoriteStock stock);
     }
 
-    // Prilagodi konstruktor da prima i novi listener
     public FavoriteStocksAdapter(List<FavoriteStock> favoriteStocks, OnItemClickListener listener, OnItemLongClickListener longClickListener, OnRemoveClickListener removeClickListener) {
         this.favoriteStocks = favoriteStocks;
         this.listener = listener;
@@ -66,7 +62,6 @@ public class FavoriteStocksAdapter extends RecyclerView.Adapter<FavoriteStocksAd
             return false;
         });
 
-        // DODANO: Postavljanje listenera na gumb za brisanje
         holder.removeButton.setOnClickListener(v -> {
             if (removeClickListener != null) {
                 removeClickListener.onRemoveClick(stock);
@@ -87,13 +82,12 @@ public class FavoriteStocksAdapter extends RecyclerView.Adapter<FavoriteStocksAd
     static class FavoriteStockViewHolder extends RecyclerView.ViewHolder {
         TextView symbolTextView;
         TextView nameTextView;
-        Button removeButton; // Referenca na gumb
+        Button removeButton;
 
         public FavoriteStockViewHolder(@NonNull View itemView) {
             super(itemView);
             symbolTextView = itemView.findViewById(R.id.favoriteStockSymbol);
             nameTextView = itemView.findViewById(R.id.favoriteCompanyName);
-            // DODANO: Povezivanje gumba s njegovim ID-em iz XML-a
             removeButton = itemView.findViewById(R.id.removeFavoriteButton);
         }
     }

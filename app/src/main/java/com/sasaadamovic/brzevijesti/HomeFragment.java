@@ -30,10 +30,9 @@ public class HomeFragment extends Fragment {
     private NewsApiService newsApiService;
     private ExecutorService executorService;
 
-    private static final int MAX_NEWS_TO_DISPLAY = 10; // Definirajte maksimalan broj vijesti za prikaz
+    private static final int MAX_NEWS_TO_DISPLAY = 10;
 
     public HomeFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -89,10 +88,9 @@ public class HomeFragment extends Fragment {
                         limitedNews = convertedNews;
                     }
 
-                    // DODAJTE OVU PROVJERU OVDJE
                     if (isAdded() && getActivity() != null) {
                         getActivity().runOnUiThread(() -> {
-                            if (isAdded()) { // Ponovna provjera unutar runOnUiThread
+                            if (isAdded()) {
                                 newsArticleList.clear();
                                 newsArticleList.addAll(limitedNews);
                                 newsAdapter.notifyDataSetChanged();
@@ -113,7 +111,7 @@ public class HomeFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         if (executorService != null) {
-            executorService.shutdownNow(); // Koristite shutdownNow() za prekidanje zadataka odmah
+            executorService.shutdownNow();
         }
     }
 }

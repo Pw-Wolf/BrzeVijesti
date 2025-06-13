@@ -1,9 +1,9 @@
 package com.sasaadamovic.brzevijesti;
 
-import android.content.res.Configuration; // Dodajte ovaj import
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View; // Dodajte ovaj import
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,9 +12,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationView; // Dodajte ovaj import
+import com.google.android.material.navigation.NavigationView;
 
-// Importi za vaše fragmente
 import com.sasaadamovic.brzevijesti.HomeFragment;
 import com.sasaadamovic.brzevijesti.StocksFragment;
 import com.sasaadamovic.brzevijesti.FavoritesFragment;
@@ -22,36 +21,28 @@ import com.sasaadamovic.brzevijesti.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    // Ne treba nam više globalna bottomNavigationView, jer će ovisiti o orijentaciji
-    // private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Provjeravamo koja je navigacijska komponenta prisutna u trenutnom layoutu
         BottomNavigationView bottomNav = findViewById(R.id.nav_view);
         NavigationView sideNav = findViewById(R.id.nav_view_landscape);
 
         if (bottomNav != null) {
-            // Ako je prisutna BottomNavigationView (portretni mod)
             bottomNav.setOnItemSelectedListener(bottomNavListener);
         } else if (sideNav != null) {
-            // Ako je prisutna NavigationView (landscape mod)
             sideNav.setNavigationItemSelectedListener(sideNavListener);
         }
 
 
         if (savedInstanceState == null) {
-            // Učitaj početni fragment (HomeFragment) samo ako se aktivnost ne obnavlja
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, new HomeFragment())
                     .commit();
         }
     }
-
-    // Listener za BottomNavigationView (za portretni mod)
     private BottomNavigationView.OnItemSelectedListener bottomNavListener =
             new BottomNavigationView.OnItemSelectedListener() {
                 @Override
@@ -78,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
 
-    // Listener za NavigationView (za landscape mod)
     private NavigationView.OnNavigationItemSelectedListener sideNavListener =
             new NavigationView.OnNavigationItemSelectedListener() {
                 @Override
@@ -101,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
                                 .replace(R.id.fragment_container, selectedFragment)
                                 .commit();
                     }
-                    // Ako koristite DrawerLayout, ovdje biste zatvorili ladicu
                     return true;
                 }
             };

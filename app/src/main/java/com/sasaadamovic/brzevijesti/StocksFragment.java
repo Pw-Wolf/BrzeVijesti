@@ -30,7 +30,6 @@ public class StocksFragment extends Fragment implements StockAdapter.OnItemClick
     private FavoriteStockDao favoriteStockDao;
 
     public StocksFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -71,10 +70,8 @@ public class StocksFragment extends Fragment implements StockAdapter.OnItemClick
                                 RecyclerView.ViewHolder viewHolder = stocksRecyclerView.findViewHolderForAdapterPosition(position);
                                 if (viewHolder instanceof StockAdapter.StockViewHolder) {
                                     if (quote != null) {
-                                        // ISPRAVAK: Korištenje string resursa
                                         ((StockAdapter.StockViewHolder) viewHolder).stockPrice.setText(getString(R.string.stock_current_price, quote.getCurrentPrice()));
                                     } else {
-                                        // ISPRAVAK: Korištenje string resursa
                                         ((StockAdapter.StockViewHolder) viewHolder).stockPrice.setText(getString(R.string.stock_price_na));
                                     }
                                 }
@@ -87,7 +84,6 @@ public class StocksFragment extends Fragment implements StockAdapter.OnItemClick
                     if (isAdded() && getActivity() != null) {
                         getActivity().runOnUiThread(() -> {
                             if (isAdded()) {
-                                // ISPRAVAK: Korištenje string resursa
                                 Toast.makeText(getContext(), getString(R.string.error_fetching_quote, symbol, e.getMessage()), Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -107,10 +103,9 @@ public class StocksFragment extends Fragment implements StockAdapter.OnItemClick
                         if (viewHolder instanceof StockAdapter.StockViewHolder) {
                             Button favoriteButton = ((StockAdapter.StockViewHolder) viewHolder).favoriteButton;
                             if (isFav) {
-                                // ISPRAVAK: Korištenje string resursa
+
                                 favoriteButton.setText(getString(R.string.remove_from_favorites));
                             } else {
-                                // ISPRAVAK: Korištenje string resursa
                                 favoriteButton.setText(getString(R.string.add_to_favorites));
                             }
                         }
@@ -134,11 +129,9 @@ public class StocksFragment extends Fragment implements StockAdapter.OnItemClick
                 if (isAdded() && getActivity() != null) {
                     getActivity().runOnUiThread(() -> {
                         if (isAdded()) {
-                            // ISPRAVAK: Korištenje string resursa
                             Toast.makeText(getContext(), getString(R.string.removed_from_favorites, symbol), Toast.LENGTH_SHORT).show();
                             RecyclerView.ViewHolder viewHolder = stocksRecyclerView.findViewHolderForAdapterPosition(position);
                             if (viewHolder instanceof StockAdapter.StockViewHolder) {
-                                // ISPRAVAK: Korištenje string resursa
                                 ((StockAdapter.StockViewHolder) viewHolder).favoriteButton.setText(getString(R.string.add_to_favorites));
                             }
                         }
@@ -150,11 +143,9 @@ public class StocksFragment extends Fragment implements StockAdapter.OnItemClick
                 if (isAdded() && getActivity() != null) {
                     getActivity().runOnUiThread(() -> {
                         if (isAdded()) {
-                            // ISPRAVAK: Korištenje string resursa
                             Toast.makeText(getContext(), getString(R.string.added_to_favorites, symbol), Toast.LENGTH_SHORT).show();
                             RecyclerView.ViewHolder viewHolder = stocksRecyclerView.findViewHolderForAdapterPosition(position);
                             if (viewHolder instanceof StockAdapter.StockViewHolder) {
-                                // ISPRAVAK: Korištenje string resursa
                                 ((StockAdapter.StockViewHolder) viewHolder).favoriteButton.setText(getString(R.string.remove_from_favorites));
                             }
                         }

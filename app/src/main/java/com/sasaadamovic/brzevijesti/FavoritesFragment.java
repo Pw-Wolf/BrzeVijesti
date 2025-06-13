@@ -42,13 +42,11 @@ public class FavoritesFragment extends Fragment {
             favoriteStocks = db.favoriteStockDao().getAll();
             if (getActivity() != null) {
                 getActivity().runOnUiThread(() -> {
-                    // Prilagodba poziva konstruktora adaptera
                     adapter = new FavoriteStocksAdapter(favoriteStocks,
                             symbol -> {
-                                // Klik na element, ako trebaš
                             },
                             stock -> showEditDialog(stock),
-                            stock -> removeFavorite(stock) // <-- Novi listener za brisanje
+                            stock -> removeFavorite(stock)
                     );
                     recyclerView.setAdapter(adapter);
                 });
@@ -56,11 +54,9 @@ public class FavoritesFragment extends Fragment {
         }).start();
     }
 
-    // NOVA METODA za brisanje favorita
     private void removeFavorite(FavoriteStock stock) {
         new Thread(() -> {
             db.favoriteStockDao().deleteBySymbol(stock.getSymbol());
-            // Ponovno učitaj favorite da osvježiš prikaz
             loadFavoriteStocks();
         }).start();
     }

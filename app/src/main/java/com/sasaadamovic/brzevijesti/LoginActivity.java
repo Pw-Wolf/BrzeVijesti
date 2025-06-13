@@ -34,9 +34,7 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
             }
-//            public void onClick(View v) {
-//                loginUser();
-//            }
+
         });
 
         textViewRegister.setOnClickListener(new View.OnClickListener() {
