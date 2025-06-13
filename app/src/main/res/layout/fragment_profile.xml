@@ -93,6 +93,7 @@
             android:id="@+id/buttonSaveChanges"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/red"
             android:text="@string/text_save_changes"/>
 
     </LinearLayout>

@@ -2,40 +2,31 @@ package com.sasaadamovic.brzevijesti;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.annotation.NonNull;
 
 @Entity(tableName = "favorite_stocks")
 public class FavoriteStock {
-    @PrimaryKey(autoGenerate = true)
-    private int id;
+
+    @PrimaryKey
+    @NonNull
     private String symbol;
-    private String companyName; // Možete dodati i druge relevantne podatke
+    private String name;
 
-    public FavoriteStock(String symbol, String companyName) {
+    public FavoriteStock(@NonNull String symbol, String name) {
         this.symbol = symbol;
-        this.companyName = companyName;
+        this.name = name;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
+    @NonNull
     public String getSymbol() {
         return symbol;
     }
 
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
+    public String getName() {
+        return name;
     }
 
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
+    public void setName(String name) {
+        this.name = name;
     }
 }

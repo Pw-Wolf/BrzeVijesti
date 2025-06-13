@@ -1,26 +1,26 @@
 package com.sasaadamovic.brzevijesti;
 
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
-
+import androidx.room.Update;
 import java.util.List;
 
 @Dao
 public interface FavoriteStockDao {
+    @Query("SELECT * FROM favorite_stocks")
+    List<FavoriteStock> getAll();
+
     @Insert
     void insert(FavoriteStock stock);
 
-    @Delete
-    void delete(FavoriteStock stock);
+    @Update
+    void update(FavoriteStock stock);
 
-    @Query("SELECT * FROM favorite_stocks")
-    List<FavoriteStock> getAllFavoriteStocks();
-
-    @Query("SELECT EXISTS(SELECT 1 FROM favorite_stocks WHERE symbol = :symbol LIMIT 1)")
-    boolean isFavorite(String symbol);
 
     @Query("DELETE FROM favorite_stocks WHERE symbol = :symbol")
-    void deleteBySymbol(String symbol); // Dodajte ovu metodu
+    void deleteBySymbol(String symbol);
+
+    @Query("SELECT COUNT(*) > 0 FROM favorite_stocks WHERE symbol = :symbol")
+    boolean isFavorite(String symbol);
 }

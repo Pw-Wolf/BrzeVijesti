@@ -5,24 +5,38 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.List;
 
 public class FavoriteStocksAdapter extends RecyclerView.Adapter<FavoriteStocksAdapter.FavoriteStockViewHolder> {
 
     private List<FavoriteStock> favoriteStocks;
     private OnItemClickListener listener;
+    private OnItemLongClickListener longClickListener;
+    private OnRemoveClickListener removeClickListener; // Novi listener
 
+    // Interface za klik na cijeli element
     public interface OnItemClickListener {
+        void onItemClick(String symbol);
+    }
+
+    // Interface za dugi pritisak
+    public interface OnItemLongClickListener {
+        void onItemLongClick(FavoriteStock stock);
+    }
+
+    // NOVI Interface za klik na gumb za brisanje
+    public interface OnRemoveClickListener {
         void onRemoveClick(FavoriteStock stock);
     }
 
-    public FavoriteStocksAdapter(List<FavoriteStock> favoriteStocks, OnItemClickListener listener) {
+    // Prilagodi konstruktor da prima i novi listener
+    public FavoriteStocksAdapter(List<FavoriteStock> favoriteStocks, OnItemClickListener listener, OnItemLongClickListener longClickListener, OnRemoveClickListener removeClickListener) {
         this.favoriteStocks = favoriteStocks;
         this.listener = listener;
+        this.longClickListener = longClickListener;
+        this.removeClickListener = removeClickListener;
     }
 
     @NonNull
@@ -35,11 +49,27 @@ public class FavoriteStocksAdapter extends RecyclerView.Adapter<FavoriteStocksAd
     @Override
     public void onBindViewHolder(@NonNull FavoriteStockViewHolder holder, int position) {
         FavoriteStock stock = favoriteStocks.get(position);
-        holder.favoriteStockSymbol.setText(stock.getSymbol());
-        holder.favoriteCompanyName.setText(stock.getCompanyName());
-        holder.removeFavoriteButton.setOnClickListener(v -> {
+        holder.symbolTextView.setText(stock.getSymbol());
+        holder.nameTextView.setText(stock.getName());
+
+        holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
-                listener.onRemoveClick(stock);
+                listener.onItemClick(stock.getSymbol());
+            }
+        });
+
+        holder.itemView.setOnLongClickListener(v -> {
+            if (longClickListener != null) {
+                longClickListener.onItemLongClick(stock);
+                return true;
+            }
+            return false;
+        });
+
+        // DODANO: Postavljanje listenera na gumb za brisanje
+        holder.removeButton.setOnClickListener(v -> {
+            if (removeClickListener != null) {
+                removeClickListener.onRemoveClick(stock);
             }
         });
     }
@@ -54,16 +84,17 @@ public class FavoriteStocksAdapter extends RecyclerView.Adapter<FavoriteStocksAd
         notifyDataSetChanged();
     }
 
-    public static class FavoriteStockViewHolder extends RecyclerView.ViewHolder {
-        TextView favoriteStockSymbol;
-        TextView favoriteCompanyName;
-        Button removeFavoriteButton;
+    static class FavoriteStockViewHolder extends RecyclerView.ViewHolder {
+        TextView symbolTextView;
+        TextView nameTextView;
+        Button removeButton; // Referenca na gumb
 
         public FavoriteStockViewHolder(@NonNull View itemView) {
             super(itemView);
-            favoriteStockSymbol = itemView.findViewById(R.id.favoriteStockSymbol);
-            favoriteCompanyName = itemView.findViewById(R.id.favoriteCompanyName);
-            removeFavoriteButton = itemView.findViewById(R.id.removeFavoriteButton);
+            symbolTextView = itemView.findViewById(R.id.favoriteStockSymbol);
+            nameTextView = itemView.findViewById(R.id.favoriteCompanyName);
+            // DODANO: Povezivanje gumba s njegovim ID-em iz XML-a
+            removeButton = itemView.findViewById(R.id.removeFavoriteButton);
         }
     }
 }

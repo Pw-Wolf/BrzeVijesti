@@ -55,8 +55,11 @@ public class StocksFragment extends Fragment implements StockAdapter.OnItemClick
         newsApiService = new NewsApiService();
         executorService = Executors.newSingleThreadExecutor();
 
-        db = Room.databaseBuilder(getContext(),
-                AppDatabase.class, "brzevijesti-db").build();
+//        db = Room.databaseBuilder(getContext(),
+//                AppDatabase.class, "brzevijesti-db").fallbackToDestructiveMigration() // <-- DODAJ OVU LINIJU
+//                .build();
+        db = AppDatabase.getInstance(getContext().getApplicationContext());
+
         favoriteStockDao = db.favoriteStockDao();
 
         fetchAllStockQuotes();

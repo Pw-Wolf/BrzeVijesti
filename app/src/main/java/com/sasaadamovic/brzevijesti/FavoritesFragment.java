@@ -1,51 +1,36 @@
 package com.sasaadamovic.brzevijesti;
 
 import android.os.Bundle;
+import android.text.InputType;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-public class FavoritesFragment extends Fragment implements FavoriteStocksAdapter.OnItemClickListener {
+public class FavoritesFragment extends Fragment {
 
-    private RecyclerView favoritesRecyclerView;
+    private RecyclerView recyclerView;
     private FavoriteStocksAdapter adapter;
-    private List<FavoriteStock> favoriteStockList;
     private AppDatabase db;
-    private FavoriteStockDao favoriteStockDao;
-    private ExecutorService executorService;
+    private List<FavoriteStock> favoriteStocks;
 
-    public FavoritesFragment() {
-        // Required empty public constructor
-    }
-
+    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_favorites, container, false);
 
-        favoritesRecyclerView = view.findViewById(R.id.favoritesRecyclerView);
-        favoritesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        favoriteStockList = new ArrayList<>();
-        adapter = new FavoriteStocksAdapter(favoriteStockList, this);
-        favoritesRecyclerView.setAdapter(adapter);
+        recyclerView = view.findViewById(R.id.favoritesRecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        db = Room.databaseBuilder(getContext(),
-                AppDatabase.class, "brzevijesti-db").build();
-        favoriteStockDao = db.favoriteStockDao();
-        executorService = Executors.newSingleThreadExecutor();
+        db = AppDatabase.getInstance(getContext().getApplicationContext());
 
         loadFavoriteStocks();
 
@@ -53,41 +38,56 @@ public class FavoritesFragment extends Fragment implements FavoriteStocksAdapter
     }
 
     private void loadFavoriteStocks() {
-        executorService.execute(() -> {
-            List<FavoriteStock> stocks = favoriteStockDao.getAllFavoriteStocks();
-            // Provjerite je li fragment još uvijek pripojen aktivnosti prije ažuriranja UI-ja
-            if (isAdded() && getActivity() != null) {
+        new Thread(() -> {
+            favoriteStocks = db.favoriteStockDao().getAll();
+            if (getActivity() != null) {
                 getActivity().runOnUiThread(() -> {
-                    if (isAdded()) { // Ponovna provjera unutar runOnUiThread
-                        favoriteStockList.clear();
-                        favoriteStockList.addAll(stocks);
-                        adapter.notifyDataSetChanged();
-                    }
+                    // Prilagodba poziva konstruktora adaptera
+                    adapter = new FavoriteStocksAdapter(favoriteStocks,
+                            symbol -> {
+                                // Klik na element, ako trebaš
+                            },
+                            stock -> showEditDialog(stock),
+                            stock -> removeFavorite(stock) // <-- Novi listener za brisanje
+                    );
+                    recyclerView.setAdapter(adapter);
                 });
             }
-        });
+        }).start();
     }
 
-    @Override
-    public void onRemoveClick(FavoriteStock stock) {
-        executorService.execute(() -> {
-            favoriteStockDao.delete(stock);
-            if (isAdded() && getActivity() != null) {
-                getActivity().runOnUiThread(() -> {
-                    if (isAdded()) {
-                        Toast.makeText(getContext(), stock.getSymbol() + " removed from favorites", Toast.LENGTH_SHORT).show();
-                        loadFavoriteStocks(); // Osvježi listu nakon brisanja
-                    }
-                });
-            }
-        });
+    // NOVA METODA za brisanje favorita
+    private void removeFavorite(FavoriteStock stock) {
+        new Thread(() -> {
+            db.favoriteStockDao().deleteBySymbol(stock.getSymbol());
+            // Ponovno učitaj favorite da osvježiš prikaz
+            loadFavoriteStocks();
+        }).start();
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (executorService != null) {
-            executorService.shutdownNow(); // Koristite shutdownNow() za prekidanje zadataka odmah
-        }
+    private void showEditDialog(FavoriteStock stock) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Promijeni naslov");
+
+        final EditText input = new EditText(getContext());
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setText(stock.getName());
+        builder.setView(input);
+
+        builder.setPositiveButton("Spremi", (dialog, which) -> {
+            String newName = input.getText().toString();
+            stock.setName(newName);
+            updateStock(stock);
+        });
+        builder.setNegativeButton("Odustani", (dialog, which) -> dialog.cancel());
+
+        builder.show();
+    }
+
+    private void updateStock(FavoriteStock stock) {
+        new Thread(() -> {
+            db.favoriteStockDao().update(stock);
+            loadFavoriteStocks();
+        }).start();
     }
 }

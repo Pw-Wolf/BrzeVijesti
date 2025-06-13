@@ -35,6 +35,7 @@ tools:context=".LoginActivity">
     android:id="@+id/buttonLogin"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:backgroundTint="@color/red"
     android:text="@string/button_login" />
 
 <TextView
